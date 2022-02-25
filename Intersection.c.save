@@ -1,0 +1,61 @@
+/** CS 2505 Spring 2022:  Intersection.c
+ * 
+ *  Supplied framework for Intersecting Rectangles project.  Your task is to
+ *  complete the supplied code to satisfy the posted specification for this
+ *  assignment.  
+ * 
+ *  Student:   <ENTER YOUR NAME HERE>
+ *  PID:       <ENTER YOUR VT EMAIL PID HERE>
+ */
+#include "Intersection.h"
+
+// DO NOT MODIFY THIS FILE IN ANY WAY!! //
+ 
+#include <stdlib.h>       // generally useful
+
+// Declarations for helper functions should go here:
+
+/**  Determines whether two rectangles, A and B, intersect, computes the attributes
+ *   of the intersection (if any), and returns true or false accordingly.
+ *
+ *   Pre:
+ *         aSWx and aSWy specify the SW (lower, left) corner of A
+ *         aHeight specifies the vertical dimension of A
+ *         aWidth specifies the horizontal dimension of A
+ *         bSWx and bSWy specify the SW (lower, left) corner of B
+ *         bHeight specifies the vertical dimension of B
+ *         bWidth specifies the horizontal dimension of B
+ *         iSWx and iSWy point to variables the client will use to store the
+ *              SW corner of the intersection, if it exists
+ *         iHeight and iWidth point to variables the client will use to store
+ *              the height and width of the intersection, if it exists
+ *       
+ *   Returns:
+ *         true if A and B share at least one point; false otherwise
+ */
+bool Intersection(int32_t aSWx, int32_t aSWy, int32_t aHeight, int32_t aWidth,
+                  int32_t bSWx, int32_t bSWy, int32_t bHeight, int32_t bWidth,
+                  int32_t* const iSWx, int32_t* const iSWy, int32_t* const iHeight, int32_t* const iWidth) {
+
+   // Complete this function correctly!
+   
+	if (bSWx > aSWx + aWidth  || bSWx + bWidth < aSWx ) { 
+			
+
+} 
+
+
+   *iSWx     = 0;   // This sets the caller's variables,
+   *iSWy     = 0;   //    but not correctly.
+   *iHeight  = 0;
+   *iWidth   = 0;
+   
+   return true;
+}
+
+// Implement any static helper functions you want below:
+
+   *iSWx     = 0;   // This sets the caller's variables,
+   *iSWy     = 0;   //    but not correctly.
+   *iHeight  = 0;
+   *iWidth   = 0;
