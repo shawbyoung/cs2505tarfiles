@@ -1,7 +1,10 @@
 #include "PtrFuncs.h"
 #include <inttypes.h>     // for formatting stdint types 
 #include <stdbool.h>
+#include <stdio.h>
+#include <string.h>
 //// On my honor: // // - I have not discussed the C language code in my program with // anyone other than my instructor or the teaching assistants // assigned to this course. // // - I have not used C language code obtained from another student, // or any other unauthorized source, either modified or unmodified. // // - If any C language code or documentation used in my program // was obtained from an authorized source, such as a text book or // course notes, that has been clearly noted with a proper citation // in the comments of my program. // // - I have not designed this program in such a way as to defeat or // interfere with the normal operation of the Curator System. // // <Shaw Young>
+
 ///  Declare any static helper functions you write here!!  ///
 
 
@@ -20,9 +23,10 @@
  *      use array bracket notation for any reason whatsoever.
  */
 void showBytesAtOffset(FILE* Out, const uint8_t* const baseAddr, uint16_t Offset, uint8_t nBytes) {
-	for (uint8_t pos = 0;  pos < nBytes; pos++) {
-		fprintf(Out, "%02X ", *(baseAddr+pos+Offset));
- 	}
+	for ( uint8_t pos = 0; pos < nBytes; pos++) {
+		fprintf(Out, "%02X ", *(baseAddr + Offset + pos) );
+	}
+
 	fprintf(Out, "\n");
    // Implement this function!!
 }
@@ -44,18 +48,35 @@ void showBytesAtOffset(FILE* Out, const uint8_t* const baseAddr, uint16_t Offset
  */
 void showValueAtOffset(FILE* Out, const uint8_t* const baseAddr, uint32_t Offset, 
                                   Sign Sgn, uint8_t nBytes) {
-	if (Sgn == unsigned ) {
-		uint32_t sum = 0;
-		for (uint8_t pos = 0; pos < nBytes; pos++) {
-			sum += *(baseAddr+pos+Offset) << pos;
+	if ( Sgn == UNSIGNED ) {
+		if ( nBytes == 1 ) {
+			fprintf(Out, "%u\n", *( (uint8_t*) (baseAddr + Offset)) );
 		}
-		fprintf(Out, "%d\n", sum);
-	}
+		if ( nBytes == 2 ) {
+			fprintf(Out, "%u\n", *( (uint16_t*) (baseAddr + Offset)) );
+		}
+		if ( nBytes == 4 ) {
 
-	else	{
-		int32_t sum = 0;
+			fprintf(Out, "%u\n", *( (uint32_t*) (baseAddr + Offset)) );
+		}
+		if ( nBytes == 8 ) {
+			fprintf(Out, "%lu\n", *( (uint64_t*) (baseAddr + Offset)) );
+		}
 	}
-
+	if ( Sgn == SIGNED) {
+		if ( nBytes == 1 ) {
+			fprintf(Out, "%d\n", *( (int8_t*) (baseAddr + Offset)) );
+		}
+		if ( nBytes == 2 ) {
+			fprintf(Out, "%d\n", *( (int16_t*) (baseAddr + Offset)) );
+		}
+		if ( nBytes == 4 ) {
+			fprintf(Out, "%d\n", *( (int32_t*) (baseAddr + Offset)) );
+		}
+		if ( nBytes == 8 ) {
+			fprintf(Out, "%ld\n", *( (int64_t*) (baseAddr + Offset)) );
+		}
+	}
    // Implement this function!!
 }
 
@@ -75,8 +96,16 @@ void showValueAtOffset(FILE* Out, const uint8_t* const baseAddr, uint32_t Offset
 void findOccurrencesOfByte(FILE* Out, const uint8_t* const baseAddr, uint32_t Length, uint8_t Byte) {
 
    // Implement this function!!
-}
+	uint32_t pos = 0;
+	while ( pos < Length ) {
+		if ( *(baseAddr + pos) == Byte ) {
+			fprintf(Out, "%02X ", pos );
+		}
+		pos++;
+	}
 
+	fprintf(Out, "\n");
+}
 
 /**  Uses pointer-based logic to copy a specified portion of a region of
  *   memory to replace the bytes in another portion of that memory region.
@@ -91,6 +120,11 @@ void findOccurrencesOfByte(FILE* Out, const uint8_t* const baseAddr, uint32_t Le
  *      You must use only pointer syntax in accessing the data.
  */
 void copyBlock(const uint8_t* const baseAddr, uint32_t Source, uint32_t Destination, uint32_t Length) {
+	for ( int32_t pos = 0; pos < Length; pos++ ) {
+		int8_t *psrc = (Source + baseAddr + pos);
+		int8_t *pdest = Destination + baseAddr + pos;
+		*pdest = *psrc;
+	}
 
    // Implement this function!!
 }
@@ -110,8 +144,28 @@ void copyBlock(const uint8_t* const baseAddr, uint32_t Source, uint32_t Destinat
  */
 void findOccurrencesOfSequence(FILE* Out, const uint8_t* const baseAddr, 
                                uint32_t Length, const uint8_t* const Sequence, uint32_t sLength) {
+	uint32_t pos = 0;
 
-   // Implement this function!!
+	while ( pos < Length ) {
+
+		if ( *(baseAddr + pos) == *(Sequence) ) {
+
+			int8_t cSeq = 0;
+			for ( int32_t i = 0; i < sLength; i++ ) {
+
+				if ( *(baseAddr + pos + i) != *(Sequence + i) ) {
+					cSeq = 1;
+				}
+			}
+
+			if ( cSeq == 0 ) {
+				fprintf(Out, "%02X ", pos);
+			}
+		}
+		pos++;
+	}
+
+	fprintf(Out, "\n");
 }
 
 
@@ -134,7 +188,11 @@ void findOccurrencesOfSequence(FILE* Out, const uint8_t* const baseAddr,
  *      You must use only pointer syntax in accessing the data.
  */
 void blendBytes(const uint8_t* const First, uint8_t* const Second, uint32_t Length) {
-
+	for ( int32_t pos = 0; pos < Length; pos++ ) {
+		int8_t *psrc = ( ~( *(First) ) ) ^ *(Second);
+		int8_t *pdest = Second + pos;
+		*pdest = *psrc;
+	}
    // Implement this function!!
 }
 
